@@ -1,0 +1,121 @@
+.main {
+  flex: 1;
+  min-height: 100svh;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 15svh;
+  position: relative;
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 22px;
+    padding: 20px;
+    color: #585858;
+
+    img {
+      width: 100%;
+      max-width: 40px;
+      height: auto;
+      border-radius: 50%;
+    }
+  }
+
+  .main-container {
+    .greeting {
+      padding: 50px 0;
+      font-size: 56px;
+      color: #c4c7c5;
+      font-weight: 500;
+      padding: 20px;
+
+      span {
+        background: -webkit-linear-gradient(16deg, #4b90ff, #ff5546);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      padding: 20px;
+
+      .card {
+        min-height: 200px;
+        padding: 15px;
+        background-color: #f0f4f9;
+        border-radius: 10px;
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #dfe4ea;
+        }
+
+        img {
+          width: 35px;
+          padding: 5px;
+          position: absolute;
+          background-color: #fff;
+          border-radius: 20px;
+          right: 10px;
+          bottom: 10px;
+        }
+
+        p {
+          color: #585858;
+          font-size: 17px;
+        }
+      }
+    }
+  }
+
+  .main-bottom {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: absolute;
+    bottom: 0;
+
+    .search-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      background-color: #f0f4f9;
+      padding: 10px 20px;
+      border-radius: 50px;
+
+      .interraction {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        img {
+          width: 24px;
+          cursor: pointer;
+        }
+      }
+
+      input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 8px;
+        font-size: 18px;
+      }
+    }
+
+    .bottom-info {
+      font-size: 13px;
+      font-weight: 300;
+      margin: 15px auto;
+      text-align: center;
+    }
+  }
+}
