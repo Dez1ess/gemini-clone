@@ -27,6 +27,10 @@
     font-size: 14px;
     color: grey;
     cursor: pointer;
+
+    &:hover {
+      background-color: #dfe4ea;
+    }
   }
 
   .recent {
@@ -65,5 +69,11 @@
       padding-right: 10px;
       cursor: pointer;
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .sidebar {
+    display: none;
   }
 }

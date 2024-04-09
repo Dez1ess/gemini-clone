@@ -1,9 +1,18 @@
 import "./SideBar.scss";
 import { assets } from "../../assets/assets";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../state/store";
+import {
+  getRecentPrompt,
+  cancelShowResult,
+} from "../../state/prompt/promptSlice";
 
 const SideBar = () => {
   const [extended, setExtended] = useState<boolean>(false);
+
+  const prompt = useSelector((state: RootState) => state.prompt);
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <div className="sidebar">
@@ -14,7 +23,15 @@ const SideBar = () => {
           src={assets.menu_icon}
           alt="menu_icon"
         />
-        <div className="new-chat">
+        <div
+          onClick={() => dispatch(cancelShowResult())}
+          style={
+            prompt.showResult
+              ? { opacity: 1, pointerEvents: "auto", fontWeight: 600 }
+              : { opacity: 0.7, pointerEvents: "none", fontWeight: 400 }
+          }
+          className="new-chat"
+        >
           <img src={assets.plus_icon} alt="plus_icon" />
           {extended && <p>New Chat</p>}
         </div>
@@ -22,10 +39,18 @@ const SideBar = () => {
           {extended && (
             <>
               <p className="recent-title">Recent</p>
-              <div className="recent-entry">
-                <img src={assets.message_icon} alt="message_icon" />
-                <p>What is React ...</p>
-              </div>
+              {prompt.recentPrompts.map((prompt) => {
+                return (
+                  <div
+                    onClick={() => dispatch(getRecentPrompt({ id: prompt.id }))}
+                    className="recent-entry"
+                    key={prompt.id}
+                  >
+                    <img src={assets.message_icon} alt="message_icon" />
+                    <p>{`${prompt.title.slice(0, 15)} ...`}</p>
+                  </div>
+                );
+              })}
             </>
           )}
         </div>
