@@ -1,7 +1,7 @@
 // ANOTHER GPT MODEL API USED FOR DEMONSTRATIONAL PURPOSE
 
 const API_KEY = import.meta.env.VITE_CHAT_API_KEY;
-const requestLink = "https://api.pawan.krd/v1/chat/completions";
+const requestLink = "https://api.pawan.krd/pai-001/v1/chat/completions";
 
 async function getAPIResponse(prompt: string) {
   const response = await fetch(requestLink, {
@@ -12,7 +12,7 @@ async function getAPIResponse(prompt: string) {
     },
     body: JSON.stringify({
       messages: [{ role: "user", content: prompt }],
-      model: "pai-001-rp",
+      model: "pai-001",
     }),
   });
 
