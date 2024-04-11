@@ -54,14 +54,13 @@
         cursor: pointer;
 
         &:hover {
-          background-color: #dfe4ea;
+          filter:invert(5%);
         }
 
-        img {
+        & > :last-child {
           width: 35px;
           padding: 5px;
           position: absolute;
-          background-color: #fff;
           border-radius: 20px;
           right: 10px;
           bottom: 10px;
@@ -87,7 +86,13 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        object-fit: scale-down;
+        object-fit: cover;
+      }
+
+      .gemini-icon {
+        &.rotating {
+          animation: rotate 2s linear infinite forwards;
+        }
       }
 
       .result-title {
@@ -95,6 +100,7 @@
         display: flex;
         align-items: center;
         gap: 20px;
+        font-weight: 500;
       }
 
       .result-data {
@@ -153,7 +159,7 @@
           width: 24px;
         }
 
-        .send-icon {
+        .send {
           width: 24px;
           animation: slideIn 0.3s ease-in-out;
           transform: translateX(0);
@@ -196,6 +202,15 @@
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 

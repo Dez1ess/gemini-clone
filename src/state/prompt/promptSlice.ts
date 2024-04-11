@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import getAPIResponse from "../../config/gemini";
 
-interface RecentPromptInterface {
+export interface RecentPromptInterface {
   id: number;
   title: string;
   description: string;
@@ -13,6 +13,7 @@ interface PromptInterface {
   loading: boolean;
   resultData: string;
   showResult: boolean;
+  activeId: number | null;
 }
 
 const promptState: PromptInterface = {
@@ -21,6 +22,7 @@ const promptState: PromptInterface = {
   loading: false,
   resultData: "",
   showResult: false,
+  activeId: null,
 };
 
 //ASYNC ACTIONS
@@ -44,6 +46,12 @@ const promptSlice = createSlice({
     updateInput: (state, action: { payload: { input: string } }) => {
       state.input = action.payload.input;
     },
+    updateActiveRecentPrompt: (
+      state,
+      action: PayloadAction<{ id: number }>
+    ) => {
+      state.activeId = action.payload.id;
+    },
     updateRecentPrompts: (
       state,
       action: PayloadAction<RecentPromptInterface>
@@ -56,6 +64,7 @@ const promptSlice = createSlice({
         existingPrompt.description = action.payload.description;
       } else {
         state.recentPrompts.push(action.payload);
+        state.activeId = action.payload.id;
       }
     },
     getRecentPrompt: (state, action: { payload: { id: number } }) => {
@@ -67,8 +76,14 @@ const promptSlice = createSlice({
         state.resultData = recentPrompt.description;
       }
     },
+    approveShowResult: (state) => {
+      state.showResult = true;
+    },
     cancelShowResult: (state) => {
       state.showResult = false;
+    },
+    updateLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -96,5 +111,8 @@ export const {
   updateRecentPrompts,
   getRecentPrompt,
   cancelShowResult,
+  approveShowResult,
+  updateLoading,
+  updateActiveRecentPrompt,
 } = promptSlice.actions;
 export default promptSlice.reducer;
