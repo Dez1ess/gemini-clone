@@ -7,6 +7,7 @@ import { updateInput } from "../../state/prompt/promptSlice";
 import { getPromptData } from "../../state/prompt/promptSlice";
 import { marked } from "marked";
 import useTypingEffect from "../../hooks/useTypingEffect";
+import { useMediaQuery } from "usehooks-ts";
 
 //ICONS
 import { BsCompassFill } from "react-icons/bs";
@@ -24,6 +25,8 @@ const Main = () => {
   const theme = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch<AppDispatch>();
   const resultData = useTypingEffect(prompt.resultData);
+
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 600px)");
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchValue) {
@@ -76,7 +79,10 @@ const Main = () => {
                   How can I help you today?
                 </p>
               </div>
-              <div className="cards">
+              <div
+                className="cards"
+                style={{ display: isSmallDevice ? "none" : "grid" }}
+              >
                 <div
                   onClick={() => {
                     dispatch(
