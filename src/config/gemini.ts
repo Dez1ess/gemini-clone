@@ -1,6 +1,6 @@
 // ANOTHER GPT MODEL API USED FOR DEMONSTRATIONAL PURPOSE
 
-const API_KEY = "pk-LRiRovXDxjwQHuZeNTuWaeROTNjsPNNtRZqlTFezInZKWNdK";
+const API_KEY = import.meta.env.VITE_CHAT_API_KEY;
 const requestLink = "https://api.pawan.krd/v1/chat/completions";
 
 async function getAPIResponse(prompt: string) {
