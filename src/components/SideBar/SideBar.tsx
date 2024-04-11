@@ -194,6 +194,7 @@ const SideBar = () => {
                 backgroundColor: theme.mode === "dark" ? "#282A2C" : "#fff",
               }}
               className="popup-container"
+              onClick={(e) => e.stopPropagation()}
             >
               <div
                 className={`close-button ${
@@ -246,6 +247,7 @@ const SideBar = () => {
                 backgroundColor: theme.mode === "dark" ? "#282A2C" : "#fff",
               }}
               className="popup-container"
+              onClick={(e) => e.stopPropagation()}
             >
               <MdOutlineDarkMode
                 size={20}
