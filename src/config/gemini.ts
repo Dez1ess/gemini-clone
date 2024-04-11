@@ -12,7 +12,7 @@ async function getAPIResponse(prompt: string) {
     },
     body: JSON.stringify({
       messages: [{ role: "user", content: prompt }],
-      model: "pai-001",
+      model: "pai-001-rp",
     }),
   });
 
