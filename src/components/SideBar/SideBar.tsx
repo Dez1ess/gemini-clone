@@ -8,6 +8,7 @@ import {
   approveShowResult,
   updateLoading,
   updateActiveRecentPrompt,
+  RecentPromptInterface,
 } from "../../state/prompt/promptSlice";
 import Switch from "../UI/Switch/Switch";
 
@@ -30,10 +31,11 @@ const SideBar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      const isOutside =
+        modalRef.current !== null && !modalRef.current.contains(target);
+
+      if (isOutside) {
         setOpenPopup(null);
       }
     };
@@ -44,6 +46,16 @@ const SideBar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const getRecent = (recentPrompt: RecentPromptInterface) => {
+    dispatch(approveShowResult());
+    dispatch(getRecentPrompt({ id: recentPrompt.id }));
+    dispatch(updateActiveRecentPrompt({ id: recentPrompt.id }));
+    dispatch(updateLoading(true));
+    setTimeout(() => {
+      dispatch(updateLoading(false));
+    }, 700);
+  };
 
   const handleMenuClick = () => {
     setExtended((prev) => !prev);
@@ -132,17 +144,7 @@ const SideBar = () => {
               {prompt.recentPrompts.map((recentPrompt) => {
                 return (
                   <div
-                    onClick={() => {
-                      dispatch(approveShowResult());
-                      dispatch(getRecentPrompt({ id: recentPrompt.id }));
-                      dispatch(
-                        updateActiveRecentPrompt({ id: recentPrompt.id })
-                      );
-                      dispatch(updateLoading(true));
-                      setTimeout(() => {
-                        dispatch(updateLoading(false));
-                      }, 700);
-                    }}
+                    onClick={() => getRecent(recentPrompt)}
                     className={`recent-entry ${
                       recentPrompt.id === prompt.activeId ? "active" : ""
                     } ${theme.mode === "dark" ? "dark-mode" : ""}`}

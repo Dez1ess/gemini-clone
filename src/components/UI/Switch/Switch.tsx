@@ -25,7 +25,7 @@ export default function Switch() {
 
   const handleSwitchChange = () => {
     const newChecked = !switchChecked;
-    dispatch(updateSwitch(newChecked)); 
+    dispatch(updateSwitch(newChecked));
     if (newChecked) {
       dispatch(updateTheme("dark"));
     } else {

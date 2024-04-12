@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
 
 const useTypingEffect = (text: string, delay = 10) => {
-  const [displayedText, setDisplayedText] = useState("");
+  const [typedText, setTypedText] = useState("");
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    let currentIndex = 0;
+    let timeout: ReturnType<typeof setTimeout>;
+    let index = 0;
 
     const type = () => {
-      if (currentIndex < text.length) {
-        setDisplayedText((prevText) => prevText + text.charAt(currentIndex));
-        currentIndex++;
-        timer = setTimeout(type, delay);
+      if (index < text.length) {
+        setTypedText((prevText) => prevText + text.charAt(index));
+        index++;
+        timeout = setTimeout(type, delay);
       }
     };
 
-    setDisplayedText("");
+    setTypedText("");
     type();
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timeout);
   }, [text, delay]);
 
-  return displayedText;
+  return typedText;
 };
 
 export default useTypingEffect;

@@ -18,6 +18,8 @@ import { MdNoPhotography } from "react-icons/md";
 import { FaMicrophoneSlash } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 
+import Card from "../Card/Card";
+
 const Main = () => {
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -83,114 +85,42 @@ const Main = () => {
                 className="cards"
                 style={{ display: isSmallDevice ? "none" : "grid" }}
               >
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateInput({
-                        input: "Where is Cuba located at?",
-                      })
-                    );
-                    dispatch(getPromptData());
-                  }}
-                  className="card"
-                  style={{
-                    backgroundColor:
-                      theme.mode === "dark" ? "#1E1F20" : "#f0f4f9",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: theme.mode === "dark" ? "#CACCCE" : "#585858",
-                    }}
-                  >
-                    Where is Cuba located at?
-                  </p>
-                  <BsCompassFill
-                    size={30}
-                    color={theme.mode === "dark" ? "#fff" : "initial"}
-                  />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateInput({
-                        input: "What is a dilemma?",
-                      })
-                    );
-                    dispatch(getPromptData());
-                  }}
-                  className="card"
-                  style={{
-                    backgroundColor:
-                      theme.mode === "dark" ? "#1E1F20" : "#f0f4f9",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: theme.mode === "dark" ? "#CACCCE" : "#585858",
-                    }}
-                  >
-                    What is a dilemma?
-                  </p>
-                  <FaRegLightbulb
-                    size={30}
-                    color={theme.mode === "dark" ? "#fff" : "initial"}
-                  />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateInput({
-                        input: "Is there absolute knowledge?",
-                      })
-                    );
-                    dispatch(getPromptData());
-                  }}
-                  className="card"
-                  style={{
-                    backgroundColor:
-                      theme.mode === "dark" ? "#1E1F20" : "#f0f4f9",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: theme.mode === "dark" ? "#CACCCE" : "#585858",
-                    }}
-                  >
-                    Is there absolute knowledge?
-                  </p>
-                  <RiDiscussFill
-                    size={30}
-                    color={theme.mode === "dark" ? "#fff" : "initial"}
-                  />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateInput({
-                        input: "TypeScript or JavaScript?",
-                      })
-                    );
-                    dispatch(getPromptData());
-                  }}
-                  className="card"
-                  style={{
-                    backgroundColor:
-                      theme.mode === "dark" ? "#1E1F20" : "#f0f4f9",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: theme.mode === "dark" ? "#CACCCE" : "#585858",
-                    }}
-                  >
-                    TypeScript or JavaScript?
-                  </p>
-                  <FaCode
-                    size={30}
-                    color={theme.mode === "dark" ? "#fff" : "initial"}
-                  />
-                </div>
+                <Card
+                  input="Where is Cuba located at?"
+                  icon={
+                    <BsCompassFill
+                      size={30}
+                      color={theme.mode === "dark" ? "#fff" : "initial"}
+                    />
+                  }
+                />
+                <Card
+                  input="What is a dilemma?"
+                  icon={
+                    <FaRegLightbulb
+                      size={30}
+                      color={theme.mode === "dark" ? "#fff" : "initial"}
+                    />
+                  }
+                />
+                <Card
+                  input="Is there absolute knowledge?"
+                  icon={
+                    <RiDiscussFill
+                      size={30}
+                      color={theme.mode === "dark" ? "#fff" : "initial"}
+                    />
+                  }
+                />
+                <Card
+                  input="TypeScript or JavaScript?"
+                  icon={
+                    <FaCode
+                      size={30}
+                      color={theme.mode === "dark" ? "#fff" : "initial"}
+                    />
+                  }
+                />
               </div>
             </>
           ) : (

@@ -7,15 +7,9 @@ import { useDarkMode } from "usehooks-ts";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
-
   const { isDarkMode } = useDarkMode();
 
-  if (isDarkMode) {
-    dispatch(updateTheme("dark"));
-  } else {
-    dispatch(updateTheme("light"));
-  }
-
+  dispatch(updateTheme(isDarkMode ? "dark" : "light"));
   dispatch(updateSwitch(isDarkMode));
 
   return (
