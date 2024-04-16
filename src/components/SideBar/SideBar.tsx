@@ -101,7 +101,7 @@ const SideBar = () => {
           />
           {extended && (
             <p style={{ color: theme.mode === "dark" ? "#DDDADD" : "initial" }}>
-              New Chat
+              New chat
             </p>
           )}
         </div>
@@ -121,7 +121,7 @@ const SideBar = () => {
                     }}
                     className="recent-title"
                   >
-                    No Recent
+                    No recent
                   </p>
                 </div>
               ) : (
@@ -137,7 +137,7 @@ const SideBar = () => {
                     }}
                     className="recent-title"
                   >
-                    No Recent
+                    No recent
                   </p>
                 </div>
               )}
@@ -276,7 +276,7 @@ const SideBar = () => {
                   color: theme.mode === "dark" ? "#DDDADD" : "initial",
                 }}
               >
-                Enable Dark Mode
+                Enable dark mode
               </p>
               <Switch />
             </div>

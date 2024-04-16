@@ -23,6 +23,7 @@ import Card from "../Card/Card";
 const Main = () => {
   const [searchValue, setSearchValue] = useState<string>("");
 
+  const user = useSelector((state: RootState) => state.user);
   const prompt = useSelector((state: RootState) => state.prompt);
   const theme = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch<AppDispatch>();
@@ -64,14 +65,14 @@ const Main = () => {
           <p style={{ color: theme.mode === "dark" ? "#CACCCE" : "#585858" }}>
             Gemini
           </p>
-          <img src={assets.user_icon} alt="user_icon" />
+          <img src={user.logo ? user.logo : assets.user_icon} alt="user_icon" />
         </div>
         <div className="main-container">
           {!prompt.showResult ? (
             <>
               <div className="greeting">
                 <p>
-                  <span>Hello, Dev.</span>
+                  <span>Hello, {user.name}.</span>
                 </p>
                 <p
                   style={{
@@ -129,7 +130,10 @@ const Main = () => {
                 style={{ color: theme.mode === "dark" ? "#CACCCE" : "initial" }}
                 className="result-title"
               >
-                <img src={assets.user_icon} alt="user_icon" />
+                <img
+                  src={user.logo ? user.logo : assets.user_icon}
+                  alt="user_icon"
+                />
                 <p>{getTitle()}</p>
               </div>
               <div className="result-data">
