@@ -12,6 +12,7 @@ lerna-debug.log*
 *.env.local
 *.env.staging
 
+backend
 node_modules
 dist
 dist-ssr

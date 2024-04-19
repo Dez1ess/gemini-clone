@@ -5,6 +5,7 @@ export interface RecentPromptInterface {
   id: number;
   title: string;
   description: string;
+  isPinned?: boolean;
 }
 
 interface PromptInterface {
@@ -85,6 +86,61 @@ const promptSlice = createSlice({
     updateLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    deleteRecentPrompt: (state, action: PayloadAction<{ id: number }>) => {
+      const existingPrompt = state.recentPrompts.find(
+        (prompt) => prompt.id === action.payload.id
+      );
+
+      if (existingPrompt) {
+        state.recentPrompts = state.recentPrompts.filter(
+          (prompt) => prompt.id !== action.payload.id
+        );
+
+        if (state.activeId === action.payload.id) {
+          state.showResult = false;
+          state.input = "";
+          state.activeId = null;
+          state.resultData = "";
+        }
+      }
+    },
+    togglePinRecentPrompt: (state, action: PayloadAction<{ id: number }>) => {
+      const existingPrompt = state.recentPrompts.find(
+        (prompt) => prompt.id === action.payload.id
+      );
+      if (existingPrompt) {
+        state.recentPrompts.forEach((prompt) => {
+          if (prompt.id !== action.payload.id) {
+            prompt.isPinned = false;
+          }
+        });
+
+        existingPrompt.isPinned = !existingPrompt.isPinned;
+
+        if (existingPrompt.isPinned) {
+          state.recentPrompts = [
+            existingPrompt,
+            ...state.recentPrompts.filter(
+              (prompt) => prompt.id !== action.payload.id
+            ),
+          ];
+        } else {
+          const unpinnedPromptIndex = state.recentPrompts.findIndex(
+            (prompt) => prompt.id === action.payload.id
+          );
+          const unpinnedPrompt = state.recentPrompts.splice(
+            unpinnedPromptIndex,
+            1
+          )[0];
+          state.recentPrompts = [
+            ...state.recentPrompts.filter(
+              (prompt) => prompt.id !== action.payload.id
+            ),
+            unpinnedPrompt,
+          ];
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,5 +170,7 @@ export const {
   approveShowResult,
   updateLoading,
   updateActiveRecentPrompt,
+  deleteRecentPrompt,
+  togglePinRecentPrompt,
 } = promptSlice.actions;
 export default promptSlice.reducer;

@@ -9,8 +9,11 @@ import {
   updateLoading,
   updateActiveRecentPrompt,
   RecentPromptInterface,
+  deleteRecentPrompt,
+  togglePinRecentPrompt,
 } from "../../state/prompt/promptSlice";
 import Switch from "../UI/Switch/Switch";
+import Popover from "@mui/material/Popover";
 
 //ICONS
 import { FiHelpCircle, FiSettings, FiPlus, FiMenu } from "react-icons/fi";
@@ -18,10 +21,16 @@ import { RiHistoryFill } from "react-icons/ri";
 import { IoIosClose } from "react-icons/io";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { BiMessage } from "react-icons/bi";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
+import { MdPushPin } from "react-icons/md";
+import { RiUnpinFill } from "react-icons/ri";
 
 const SideBar = () => {
   const [extended, setExtended] = useState<boolean>(false);
   const [openPopup, setOpenPopup] = useState<null | "help" | "settings">(null);
+  const [selectedRecentPromptId, setSelectedRecentPromptId] =
+    useState<number>(0);
 
   const prompt = useSelector((state: RootState) => state.prompt);
   const theme = useSelector((state: RootState) => state.theme);
@@ -68,6 +77,23 @@ const SideBar = () => {
   const handleHelpClick = () => {
     setOpenPopup((prev) => (prev === "help" ? null : "help"));
   };
+
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleOptionsClick = (
+    recentPromptId: number,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    setSelectedRecentPromptId(recentPromptId);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleOptionsClose = () => {
+    setAnchorEl(null);
+  };
+
+  const optionsOpen = Boolean(anchorEl);
+  const optionsId = optionsOpen ? "recent-options-popover" : undefined;
 
   return (
     <div
@@ -144,25 +170,163 @@ const SideBar = () => {
               {prompt.recentPrompts.map((recentPrompt) => {
                 return (
                   <div
-                    onClick={() => getRecent(recentPrompt)}
+                    onClick={() => {
+                      if (recentPrompt.id !== prompt.activeId) {
+                        getRecent(recentPrompt);
+                      }
+                    }}
                     className={`recent-entry ${
                       recentPrompt.id === prompt.activeId ? "active" : ""
-                    } ${theme.mode === "dark" ? "dark-mode" : ""}`}
+                    } ${recentPrompt.isPinned ? "pinned" : ""} ${
+                      theme.mode === "dark" ? "dark-mode" : ""
+                    }`}
                     key={recentPrompt.id}
                   >
-                    <BiMessage
-                      size={22}
-                      color={theme.mode === "dark" ? "#fff" : "initial"}
-                    />
-                    <p
+                    <div
                       style={{
-                        color: theme.mode === "dark" ? "#DDDADD" : "#282828",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
                       }}
-                    >{`${
-                      recentPrompt.title.length > 10
-                        ? recentPrompt.title.slice(0, 10) + "..."
-                        : recentPrompt.title
-                    }`}</p>
+                    >
+                      {recentPrompt.isPinned ? (
+                        <MdPushPin
+                          size={22}
+                          color={theme.mode === "dark" ? "#fff" : "initial"}
+                        />
+                      ) : (
+                        <BiMessage
+                          size={22}
+                          color={theme.mode === "dark" ? "#fff" : "initial"}
+                        />
+                      )}
+
+                      <p
+                        style={{
+                          color: theme.mode === "dark" ? "#DDDADD" : "#282828",
+                        }}
+                      >{`${
+                        recentPrompt.title.length > 10
+                          ? recentPrompt.title.slice(0, 10) + "..."
+                          : recentPrompt.title
+                      }`}</p>
+                    </div>
+
+                    <div
+                      className="options"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOptionsClick(recentPrompt.id, e);
+                      }}
+                    >
+                      <BsThreeDotsVertical size={22} />
+                    </div>
+                    <Popover
+                      id={optionsId}
+                      open={optionsOpen}
+                      anchorEl={anchorEl}
+                      onClose={handleOptionsClose}
+                      anchorOrigin={{
+                        vertical: "center",
+                        horizontal: "right",
+                      }}
+                      transformOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                    >
+                      <div
+                        className="recent-entry-container"
+                        style={{
+                          width: "130px",
+                          backgroundColor:
+                            theme.mode === "dark" ? "#1e1f20" : "#f0f4f9",
+                        }}
+                      >
+                        <div
+                          className={`recent-entry-option ${
+                            theme.mode === "dark" ? "dark-mode" : ""
+                          }`}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-evenly",
+                            gap: "10px",
+                            padding: "10px",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOptionsClose();
+                            dispatch(
+                              togglePinRecentPrompt({
+                                id: selectedRecentPromptId,
+                              })
+                            );
+                          }}
+                        >
+                          {prompt.recentPrompts.find(
+                            (p) => p.id === selectedRecentPromptId
+                          )?.isPinned ? (
+                            <RiUnpinFill
+                              size={18}
+                              color={theme.mode === "dark" ? "#fff" : "initial"}
+                            />
+                          ) : (
+                            <MdPushPin
+                              size={18}
+                              color={theme.mode === "dark" ? "#fff" : "initial"}
+                            />
+                          )}
+
+                          <span
+                            style={{
+                              width: "50px",
+                              color: theme.mode === "dark" ? "#fff" : "initial",
+                            }}
+                          >
+                            {prompt.recentPrompts.find(
+                              (p) => p.id === selectedRecentPromptId
+                            )?.isPinned
+                              ? "Unpin"
+                              : "Pin"}
+                          </span>
+                        </div>
+                        <div
+                          className={`recent-entry-option ${
+                            theme.mode === "dark" ? "dark-mode" : ""
+                          }`}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-evenly",
+                            gap: "10px",
+                            padding: "10px",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOptionsClose();
+                            dispatch(
+                              deleteRecentPrompt({
+                                id: selectedRecentPromptId,
+                              })
+                            );
+                          }}
+                        >
+                          <MdDelete
+                            size={18}
+                            color={theme.mode === "dark" ? "#fff" : "initial"}
+                          />
+                          <span
+                            style={{
+                              width: "50px",
+                              color: theme.mode === "dark" ? "#fff" : "initial",
+                            }}
+                          >
+                            Delete
+                          </span>
+                        </div>
+                      </div>
+                    </Popover>
                   </div>
                 );
               })}

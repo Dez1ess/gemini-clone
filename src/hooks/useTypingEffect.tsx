@@ -19,7 +19,7 @@ const useTypingEffect = (text: string, delay = 10) => {
     type();
 
     return () => clearTimeout(timeout);
-  }, [text, delay]);
+  }, [text]);
 
   return typedText;
 };

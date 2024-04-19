@@ -1,5 +1,5 @@
 import "./Main.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { assets } from "../../assets/assets";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../state/store";
@@ -20,10 +20,20 @@ import { IoSendSharp } from "react-icons/io5";
 
 import Card from "../Card/Card";
 
-const Main = () => {
+interface User {
+  email: string;
+  name: string;
+  logo: string;
+}
+
+const Main = ({ email }: { email: string }) => {
+  const [user, setUser] = useState<User | null>({
+    name: "Dev",
+    email: "",
+    logo: "",
+  });
   const [searchValue, setSearchValue] = useState<string>("");
 
-  const user = useSelector((state: RootState) => state.user);
   const prompt = useSelector((state: RootState) => state.prompt);
   const theme = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch<AppDispatch>();
@@ -52,6 +62,25 @@ const Main = () => {
     return promptObj?.title;
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/users/${email}`
+        );
+        const data = await response.json();
+        setUser(data);
+        console.log(data.logo);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (email) {
+      fetchUserData();
+    }
+  }, [email]);
+
   return (
     <div
       style={{
@@ -65,14 +94,17 @@ const Main = () => {
           <p style={{ color: theme.mode === "dark" ? "#CACCCE" : "#585858" }}>
             Gemini
           </p>
-          <img src={user.logo ? user.logo : assets.user_icon} alt="user_icon" />
+          <img
+            src={user?.logo ? user.logo : assets.user_icon}
+            alt="user_icon"
+          />
         </div>
         <div className="main-container">
           {!prompt.showResult ? (
             <>
               <div className="greeting">
                 <p>
-                  <span>Hello, {user.name}.</span>
+                  <span>Hello, {user?.name}.</span>
                 </p>
                 <p
                   style={{
@@ -131,7 +163,7 @@ const Main = () => {
                 className="result-title"
               >
                 <img
-                  src={user.logo ? user.logo : assets.user_icon}
+                  src={user?.logo ? user.logo : assets.user_icon}
                   alt="user_icon"
                 />
                 <p>{getTitle()}</p>
