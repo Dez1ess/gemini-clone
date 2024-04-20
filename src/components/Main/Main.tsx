@@ -1,11 +1,12 @@
 import "./Main.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { assets } from "../../assets/assets";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../state/store";
 import { updateInput } from "../../state/prompt/promptSlice";
 import { getPromptData } from "../../state/prompt/promptSlice";
 import { marked } from "marked";
+import Card from "../Card/Card";
 import useTypingEffect from "../../hooks/useTypingEffect";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -18,22 +19,10 @@ import { MdNoPhotography } from "react-icons/md";
 import { FaMicrophoneSlash } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 
-import Card from "../Card/Card";
-
-interface User {
-  email: string;
-  name: string;
-  logo: string;
-}
-
-const Main = ({ email }: { email: string }) => {
-  const [user, setUser] = useState<User | null>({
-    name: "Dev",
-    email: "",
-    logo: "",
-  });
+const Main = () => {
   const [searchValue, setSearchValue] = useState<string>("");
 
+  const user = useSelector((state: RootState) => state.user);
   const prompt = useSelector((state: RootState) => state.prompt);
   const theme = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch<AppDispatch>();
@@ -43,9 +32,7 @@ const Main = ({ email }: { email: string }) => {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchValue) {
-      dispatch(updateInput({ input: searchValue }));
-      dispatch(getPromptData());
-      setSearchValue("");
+      handleSend();
     }
   };
 
@@ -61,25 +48,6 @@ const Main = ({ email }: { email: string }) => {
     );
     return promptObj?.title;
   };
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/users/${email}`
-        );
-        const data = await response.json();
-        setUser(data);
-        console.log(data.logo);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    if (email) {
-      fetchUserData();
-    }
-  }, [email]);
 
   return (
     <div

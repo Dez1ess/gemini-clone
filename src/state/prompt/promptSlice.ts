@@ -141,6 +141,14 @@ const promptSlice = createSlice({
         }
       }
     },
+    clearPromptState: (state) => {
+      state.input = "";
+      state.recentPrompts = [];
+      state.loading = false;
+      state.resultData = "";
+      state.showResult = false;
+      state.activeId = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -172,5 +180,6 @@ export const {
   updateActiveRecentPrompt,
   deleteRecentPrompt,
   togglePinRecentPrompt,
+  clearPromptState,
 } = promptSlice.actions;
 export default promptSlice.reducer;
