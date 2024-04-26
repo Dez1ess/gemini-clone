@@ -1,30 +1,54 @@
-# React + TypeScript + Vite
+# Gemini Clone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Gemini Clone is a powerful web application that replicates the functionality of the popular chatbot interface, Gemini. This project is built using modern web technologies such as React, Redux, and Material-UI, ensuring a seamless and responsive user experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Theme Switching**: Switch between light and dark themes with a simple click, providing a comfortable viewing experience in any lighting condition.
+- **Google Authentication**: Seamlessly log in using your Google account, ensuring secure access to your chat prompts and preferences.
+- **Redux State Management**: Efficiently manage application state with Redux, enabling responsive and consistent data handling across the application.
+- **Redux Persist**: Persist your chat prompts and preferences even after closing the application, ensuring a smooth and uninterrupted experience.
+- **Chat Prompt Management**: Create, pin, and delete chat prompts with ease, allowing you to organize and prioritize your conversations.
+- **Typing Animation**: Enjoy a realistic typing animation during response generation, adding a natural and engaging touch to your chat experience.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React
+- Redux
+- Redux Persist
+- Material-UI
+- Emotion (for styled components)
+- React Icons
+- React Toastify
+- JWT Decode
+- Marked (for markdown rendering)
+- rsuite (for additional UI components)
+- usehooks-ts (for custom React hooks)
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+To get a local copy of the project up and running, follow these simple steps:
+
+1. Clone the repository:
+```
+git clone https://github.com/your-username/gemini-clone.git
+```
+2. Install dependencies:
+```
+cd gemini-clone
+npm install
+```
+3. Start the development server:
+```
+npm run dev
+```
+4. Open your browser and navigate to `http://localhost:3000` to see the application in action.
+
+## Building for Production
+
+To build the project for production, run:
+```
+npm run build
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+This will create an optimized build in the `dist` folder, which can be deployed to a production server.
